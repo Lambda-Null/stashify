@@ -16,4 +16,5 @@ gem "guard-reek"
 gem "guard-rspec"
 gem "guard-rubocop"
 
+gem "byebug"
 gem "rantly"

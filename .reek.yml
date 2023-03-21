@@ -9,3 +9,7 @@ detectors:
   UncommunicativeVariableName:
     exclude:
       - properties
+
+  FeatureEnvy:
+    exclude:
+      - Stashify::Directory::Local#write
