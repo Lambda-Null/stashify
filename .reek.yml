@@ -1,0 +1,11 @@
+detectors:
+  IrresponsibleModule:
+    enabled: false
+
+  TooManyStatements:
+    exclude:
+      - properties
+
+  UncommunicativeVariableName:
+    exclude:
+      - properties
