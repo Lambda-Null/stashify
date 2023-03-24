@@ -3,6 +3,5 @@
 require_relative "stashify/version"
 
 module Stashify
-  class Error < StandardError; end
-  # Your code goes here...
+  class InvalidFile < StandardError; end
 end

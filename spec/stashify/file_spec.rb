@@ -3,6 +3,23 @@
 require "stashify/file"
 
 RSpec.describe Stashify::File do
+  it { expect(Stashify::File.new(name: "foo").contents).to eq("") }
+  it { expect { Stashify::File.new(name: "a/b") }.to raise_error(Stashify::InvalidFile) }
+
+  let(:properties) do
+    property_of do
+      name1 = string
+      contents1 = string
+      name2 = string
+      contents2 = string
+      guard name1 != name2
+      guard contents1 != contents2
+      guard name1 !~ %r{/}
+      guard name2 !~ %r{/}
+      [name1, contents1, name2, contents2]
+    end
+  end
+
   it "has properties set" do
     properties.check do |name, contents|
       file = Stashify::File.new(name: name, contents: contents)
@@ -10,8 +27,6 @@ RSpec.describe Stashify::File do
       expect(file.contents).to eq(contents)
     end
   end
-
-  it { expect(Stashify::File.new(name: "foo").contents).to eq("") }
 
   it "is equal" do
     properties.check do |name, contents|
@@ -32,17 +47,5 @@ RSpec.describe Stashify::File do
       expect(Stashify::File.new(name: name1, contents: contents))
         .to_not eq(Stashify::File.new(name: name2, contents: contents))
     end
-  end
-end
-
-def properties
-  property_of do
-    name1 = string
-    contents1 = string
-    name2 = string
-    contents2 = string
-    guard name1 != name2
-    guard contents1 != contents2
-    [name1, contents1, name2, contents2]
   end
 end
