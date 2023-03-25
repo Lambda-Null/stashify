@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "stashify/file"
+require "stashify/file/local"
 require "stashify/directory"
 
 module Stashify
@@ -11,16 +11,6 @@ module Stashify
       def initialize(path)
         @path = path
         super(name: ::File.basename(path))
-      end
-
-      def find(name)
-        path = ::File.join(@path, name)
-        if ::File.directory?(path)
-          Stashify::Directory::Local.new(path)
-        else
-          file = ::File.read(path)
-          Stashify::File.new(name: name, contents: file)
-        end
       end
 
       def write(file)
@@ -43,6 +33,24 @@ module Stashify
 
       def ==(other)
         @path == other.path
+      end
+
+      private
+
+      def directory?(name)
+        ::File.directory?(path_of(name))
+      end
+
+      def file(name)
+        Stashify::File::Local.new(path_of(name))
+      end
+
+      def directory(name)
+        Stashify::Directory::Local.new(path_of(name))
+      end
+
+      def path_of(name)
+        ::File.join(@path, name)
       end
     end
   end

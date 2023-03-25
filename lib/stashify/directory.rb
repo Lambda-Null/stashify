@@ -7,5 +7,13 @@ module Stashify
     def initialize(name:)
       @name = name
     end
+
+    def find(name)
+      if directory?(name)
+        directory(name)
+      else
+        file(name)
+      end
+    end
   end
 end
