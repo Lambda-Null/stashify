@@ -12,7 +12,7 @@ module Stashify
     def find(name)
       if directory?(name)
         directory(name)
-      else
+      elsif file?(name)
         file(name)
       end
     end

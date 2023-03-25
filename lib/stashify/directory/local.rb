@@ -43,12 +43,16 @@ module Stashify
 
       private
 
-      def directory?(name)
-        ::File.directory?(path_of(name))
+      def file?(name)
+        ::File.exist?(path_of(name))
       end
 
       def file(name)
         Stashify::File::Local.new(path_of(name))
+      end
+
+      def directory?(name)
+        ::File.directory?(path_of(name))
       end
 
       def directory(name)

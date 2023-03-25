@@ -72,4 +72,10 @@ RSpec.describe Stashify::Directory::Local do
       expect(File.directory?(path))
     end
   end
+
+  it "returns nil when file doesn't exist" do
+    SpecHelper.file_properties.each do |name, _|
+      expect(Stashify::Directory::Local.new(@dir).find(name)).to be_nil
+    end
+  end
 end
