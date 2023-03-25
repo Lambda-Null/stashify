@@ -43,6 +43,19 @@ RSpec.describe Stashify::Directory::Local do
     end
   end
 
+  it "writes a directory's contents" do
+    SpecHelper.file_properties.each do |name, contents|
+      file = Stashify::File.new(name: name, contents: contents)
+      source_dir = Stashify::Directory::Local.new(@dir)
+      source_dir.write(file)
+      Dir.mktmpdir do |target|
+        target_dir = Stashify::Directory::Local.new(target)
+        target_dir.write(source_dir)
+        expect(target_dir.find(source_dir.name).find(name)).to eq(file)
+      end
+    end
+  end
+
   it "deletes a file" do
     SpecHelper.file_properties.each do |name, contents|
       File.write(File.join(@dir, name), contents)

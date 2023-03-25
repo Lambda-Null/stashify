@@ -12,3 +12,6 @@
 
 # debugging
 .byebug_history
+
+# publishing gem
+*.gem

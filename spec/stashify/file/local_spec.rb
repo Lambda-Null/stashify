@@ -28,6 +28,6 @@ RSpec.describe Stashify::File::Local do
       File.write(path, contents)
       expect(File).to_not receive(:read)
       Stashify::File::Local.new(path)
-    end    
+    end
   end
 end

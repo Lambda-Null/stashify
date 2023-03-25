@@ -13,13 +13,15 @@ module Stashify
         super(name: ::File.basename(path))
       end
 
-      def write(file)
-        path = ::File.join(@path, file.name)
-        if file.is_a?(Stashify::Directory)
-          FileUtils.mkdir(path)
-        else
-          ::File.write(path, file.contents)
-        end
+      def write_directory(directory)
+        path = path_of(directory.name)
+        FileUtils.mkdir(path)
+        subdir = Stashify::Directory::Local.new(path)
+        directory.files.each { |file| subdir.write(file) }
+      end
+
+      def write_file(file)
+        ::File.write(path_of(file.name), file.contents)
       end
 
       def delete(name)
@@ -28,6 +30,12 @@ module Stashify
           FileUtils.rm_r(path)
         else
           ::File.delete(path)
+        end
+      end
+
+      def files
+        Dir.entries(@path).grep_v(/^[.][.]?$/).map do |file_name|
+          find(::File.basename(file_name))
         end
       end
 
