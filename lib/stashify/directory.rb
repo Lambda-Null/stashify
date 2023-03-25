@@ -24,5 +24,10 @@ module Stashify
         write_file(file)
       end
     end
+
+    def write_directory(directory)
+      subdir = self.directory(directory.name)
+      directory.files.each { |file| subdir.write(file) }
+    end
   end
 end

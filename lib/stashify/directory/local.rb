@@ -14,10 +14,8 @@ module Stashify
       end
 
       def write_directory(directory)
-        path = path_of(directory.name)
-        FileUtils.mkdir(path)
-        subdir = Stashify::Directory::Local.new(path)
-        directory.files.each { |file| subdir.write(file) }
+        FileUtils.mkdir(path_of(directory.name))
+        super
       end
 
       def write_file(file)
