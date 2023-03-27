@@ -6,13 +6,6 @@ require "stashify/directory"
 module Stashify
   class Directory
     class Local < Stashify::Directory
-      attr_reader :path
-
-      def initialize(path)
-        @path = path
-        super(name: ::File.basename(path))
-      end
-
       def write_directory(directory)
         FileUtils.mkdir(path_of(directory.name))
         super
@@ -23,22 +16,18 @@ module Stashify
       end
 
       def delete(name)
-        path = ::File.join(@path, name)
-        if ::File.directory?(path)
-          FileUtils.rm_r(path)
+        name_path = ::File.join(path, name)
+        if ::File.directory?(name_path)
+          FileUtils.rm_r(name_path)
         else
-          ::File.delete(path)
+          ::File.delete(name_path)
         end
       end
 
       def files
-        Dir.entries(@path).grep_v(/^[.][.]?$/).map do |file_name|
+        Dir.entries(path).grep_v(/^[.][.]?$/).map do |file_name|
           find(::File.basename(file_name))
         end
-      end
-
-      def ==(other)
-        @path == other.path
       end
 
       private
@@ -56,11 +45,7 @@ module Stashify
       end
 
       def directory(name)
-        Stashify::Directory::Local.new(path_of(name))
-      end
-
-      def path_of(name)
-        ::File.join(@path, name)
+        Stashify::Directory::Local.new(path: path_of(name))
       end
     end
   end

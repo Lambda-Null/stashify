@@ -2,10 +2,13 @@
 
 module Stashify
   class Directory
-    attr_reader :name, :files
+    attr_reader :name, :files, :path
 
-    def initialize(name:, files: [])
-      @name = name
+    def initialize(name: nil, path: nil, files: [])
+      raise StandardError, "name or path must be defined" unless name || path
+
+      @path = path
+      @name = name || ::File.basename(path)
       @files = files
     end
 
@@ -28,6 +31,20 @@ module Stashify
     def write_directory(directory)
       subdir = self.directory(directory.name)
       directory.files.each { |file| subdir.write(file) }
+    end
+
+    def ==(other)
+      files == other.files
+    end
+
+    def eql?(other)
+      self.class == other.class && name == other.name && path == other.path
+    end
+
+    private
+
+    def path_of(name)
+      ::File.join(path, name)
     end
   end
 end

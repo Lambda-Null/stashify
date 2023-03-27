@@ -13,3 +13,7 @@ detectors:
   FeatureEnvy:
     exclude:
       - Stashify::Directory::Local#write
+
+  ControlParameter:
+    exclude:
+      - Stashify::Directory#initialize
