@@ -4,12 +4,14 @@ require "stashify"
 
 module Stashify
   class File
-    attr_reader :name, :contents
+    attr_reader :name, :path, :contents
 
-    def initialize(name:, contents: "")
-      raise Stashify::InvalidFile, "Name '#{name}' contains a /" if name =~ %r{/}
+    def initialize(name: nil, path: nil, contents: "")
+      raise StandardError, "name or path must be defined" unless name || path
+      raise Stashify::InvalidFile, "Name '#{name}' contains a /" if name && name =~ %r{/}
 
-      @name = name
+      @path = path
+      @name = name || ::File.basename(path)
       @contents = contents
     end
 

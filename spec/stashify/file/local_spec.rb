@@ -16,7 +16,7 @@ RSpec.describe Stashify::File::Local do
     SpecHelper.file_properties.each do |name, contents|
       path = File.join(@dir, name)
       File.write(path, contents)
-      file = Stashify::File::Local.new(path)
+      file = Stashify::File::Local.new(path: path)
       expect(file.name).to eq(name)
       expect(file.contents).to eq(contents)
     end
@@ -27,7 +27,7 @@ RSpec.describe Stashify::File::Local do
       path = File.join(@dir, name)
       File.write(path, contents)
       expect(File).to_not receive(:read)
-      Stashify::File::Local.new(path)
+      Stashify::File::Local.new(path: path)
     end
   end
 end

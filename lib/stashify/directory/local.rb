@@ -37,7 +37,7 @@ module Stashify
       end
 
       def file(name)
-        Stashify::File::Local.new(path_of(name))
+        Stashify::File::Local.new(path: path_of(name))
       end
 
       def directory?(name)
