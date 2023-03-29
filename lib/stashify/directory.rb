@@ -43,8 +43,8 @@ module Stashify
 
     private
 
-    def path_of(name)
-      ::File.join(path, name)
+    def path_of(*name)
+      ::File.join(path, *name)
     end
   end
 end
