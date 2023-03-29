@@ -15,15 +15,6 @@ module Stashify
         ::File.write(path_of(file.name), file.contents)
       end
 
-      def delete(name)
-        name_path = ::File.join(path, name)
-        if ::File.directory?(name_path)
-          FileUtils.rm_r(name_path)
-        else
-          ::File.delete(name_path)
-        end
-      end
-
       def files
         Dir.entries(path).grep_v(/^[.][.]?$/).map do |file_name|
           find(::File.basename(file_name))
@@ -46,6 +37,14 @@ module Stashify
 
       def directory(name)
         Stashify::Directory::Local.new(path: path_of(name))
+      end
+
+      def delete_directory(name)
+        FileUtils.rm_r(path_of(name))
+      end
+
+      def delete_file(name)
+        ::File.delete(path_of(name))
       end
     end
   end
