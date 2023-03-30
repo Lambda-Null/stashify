@@ -19,6 +19,10 @@ module Stashify
       @contents = contents
     end
 
+    def delete
+      @contents = nil
+    end
+
     def ==(other)
       name == other.name && contents == other.contents
     end

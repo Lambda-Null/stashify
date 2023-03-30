@@ -50,6 +50,10 @@ module Stashify
       subdir.files.each { |file| subdir.delete(file.name) }
     end
 
+    def delete_file(name)
+      file(name).delete
+    end
+
     def ==(other)
       files == other.files
     end

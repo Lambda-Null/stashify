@@ -12,6 +12,10 @@ module Stashify
       def write(contents)
         ::File.write(path, contents)
       end
+
+      def delete
+        ::File.delete(path)
+      end
     end
   end
 end

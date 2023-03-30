@@ -38,10 +38,6 @@ module Stashify
       def delete_directory(name)
         FileUtils.rm_r(path_of(name))
       end
-
-      def delete_file(name)
-        ::File.delete(path_of(name))
-      end
     end
   end
 end
