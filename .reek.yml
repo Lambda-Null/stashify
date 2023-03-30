@@ -12,6 +12,7 @@ detectors:
 
   FeatureEnvy:
     exclude:
+      - Stashify::Directory#write_file
       - Stashify::Directory::Local#write_file
       - Stashify::Directory#delete_directory
 

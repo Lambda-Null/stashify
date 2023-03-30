@@ -33,6 +33,10 @@ module Stashify
       directory.files.each { |file| subdir.write(file) }
     end
 
+    def write_file(file)
+      file(file.name).write(file.contents)
+    end
+
     def delete(name)
       if directory?(name)
         delete_directory(name)

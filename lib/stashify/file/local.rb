@@ -8,6 +8,10 @@ module Stashify
       def contents
         ::File.read(path)
       end
+
+      def write(contents)
+        ::File.write(path, contents)
+      end
     end
   end
 end

@@ -15,6 +15,10 @@ module Stashify
       @contents = contents
     end
 
+    def write(contents)
+      @contents = contents
+    end
+
     def ==(other)
       name == other.name && contents == other.contents
     end

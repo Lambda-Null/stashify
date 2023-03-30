@@ -11,10 +11,6 @@ module Stashify
         super
       end
 
-      def write_file(file)
-        ::File.write(path_of(file.name), file.contents)
-      end
-
       def files
         Dir.entries(path).grep_v(/^[.][.]?$/).map do |file_name|
           find(::File.basename(file_name))
