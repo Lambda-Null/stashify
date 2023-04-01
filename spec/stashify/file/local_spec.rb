@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "stashify/contract/file_contract"
 require "tmpdir"
 
 require "stashify/file/local"
@@ -12,22 +13,22 @@ RSpec.describe Stashify::File::Local do
     end
   end
 
-  it "takes a path for the constructor" do
-    SpecHelper.file_properties.each do |name, contents|
-      path = File.join(@dir, name)
-      File.write(path, contents)
-      file = Stashify::File::Local.new(path: path)
-      expect(file.name).to eq(name)
-      expect(file.contents).to eq(contents)
-    end
+  include_context "file setup", 100
+  let(:full_path) { File.join(@dir, path) }
+
+  before(:each) do
+    FileUtils.mkdir_p(File.dirname(full_path))
+    File.write(full_path, contents)
   end
 
+  subject(:file) do
+    Stashify::File::Local.new(path: full_path)
+  end
+
+  it_behaves_like "a file"
+
   it "does not read the file until contents is called" do
-    SpecHelper.file_properties.each do |name, contents|
-      path = File.join(@dir, name)
-      File.write(path, contents)
-      expect(File).to_not receive(:read)
-      Stashify::File::Local.new(path: path)
-    end
+    expect(File).to_not receive(:read)
+    subject
   end
 end

@@ -11,16 +11,18 @@ module Stashify
         super
       end
 
+      def parent
+        Stashify::Directory::Local.new(path: ::File.dirname(path))
+      end
+
+      def exists?(name)
+        ::File.exist?(path_of(name))
+      end
+
       def files
         Dir.entries(path).grep_v(/^[.][.]?$/).map do |file_name|
           find(::File.basename(file_name))
         end
-      end
-
-      private
-
-      def file?(name)
-        ::File.exist?(path_of(name))
       end
 
       def file(name)

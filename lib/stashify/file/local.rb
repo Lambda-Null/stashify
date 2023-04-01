@@ -16,6 +16,10 @@ module Stashify
       def delete
         ::File.delete(path)
       end
+
+      def exists?
+        ::File.exist?(path)
+      end
     end
   end
 end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "tmpdir"
+require "stashify/contract/directory_contract"
 
 require "stashify/directory/local"
 require "stashify/file"
@@ -13,69 +14,20 @@ RSpec.describe Stashify::Directory::Local do
     end
   end
 
-  it "reads a file" do
-    SpecHelper.file_properties.each do |name, contents|
-      File.write(File.join(@dir, name), contents)
-      file = Stashify::Directory::Local.new(path: @dir).find(name)
-      expect(file).to eq(Stashify::File.new(name: name, contents: contents))
-    end
+  include_context "directory setup", 100
+  let(:full_path) { File.join(@dir, path) }
+
+  around(:each) do |s|
+    file_path = File.join(full_path, file_name)
+    FileUtils.mkdir_p(full_path)
+    File.write(file_path, contents)
+    s.run
+    FileUtils.rm_r(file_path) if File.exist?(file_path)
   end
 
-  it "reads a directory" do
-    SpecHelper.file_properties.each do |name, _|
-      FileUtils.mkdir(File.join(@dir, name))
-      dir = Stashify::Directory::Local.new(path: @dir).find(name)
-      expect(dir).to eq(Stashify::Directory::Local.new(path: File.join(@dir, name)))
-    end
+  subject(:direcotry) do
+    Stashify::Directory::Local.new(path: full_path)
   end
 
-  it "writes a file" do
-    SpecHelper.file_properties.each do |name, contents|
-      Stashify::Directory::Local.new(path: @dir).write(Stashify::File.new(name: name, contents: contents))
-      expect(File.read(File.join(@dir, name))).to eq(contents)
-    end
-  end
-
-  it "writes a directory" do
-    SpecHelper.file_properties.each do |name, _|
-      Stashify::Directory::Local.new(path: @dir).write(Stashify::Directory.new(name: name))
-      expect(File.directory?(File.join(@dir, name))).to be_truthy
-    end
-  end
-
-  it "writes a directory's contents" do
-    SpecHelper.file_properties.each do |name, contents|
-      file = Stashify::File.new(name: name, contents: contents)
-      source_dir = Stashify::Directory::Local.new(path: @dir)
-      source_dir.write(file)
-      Dir.mktmpdir do |target|
-        target_dir = Stashify::Directory::Local.new(path: target)
-        target_dir.write(source_dir)
-        expect(target_dir.find(source_dir.name).find(name)).to eq(file)
-      end
-    end
-  end
-
-  it "deletes a file" do
-    SpecHelper.file_properties.each do |name, contents|
-      File.write(File.join(@dir, name), contents)
-      Stashify::Directory::Local.new(path: @dir).delete(name)
-      expect(File.exist?(File.join(@dir, name))).to be_falsey
-    end
-  end
-
-  it "deletes a directory" do
-    SpecHelper.file_properties.each do |name, _|
-      path = File.join(@dir, name)
-      FileUtils.mkdir(path)
-      Stashify::Directory::Local.new(path: @dir).delete(name)
-      expect(File.directory?(path))
-    end
-  end
-
-  it "returns nil when file doesn't exist" do
-    SpecHelper.file_properties.each do |name, _|
-      expect(Stashify::Directory::Local.new(path: @dir).find(name)).to be_nil
-    end
-  end
+  it_behaves_like "a directory"
 end

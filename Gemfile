@@ -17,4 +17,4 @@ gem "guard-rspec"
 gem "guard-rubocop"
 
 gem "byebug"
-gem "rantly"
+gem "stashify-contract"

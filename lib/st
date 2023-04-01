@@ -1,0 +1,9 @@
+require "rantly/rspec_extensions"
+
+shared_example "a file" do
+  it "has a reasonable name" do
+    property_of do
+      require "byebug";byebug
+    end
+  end
+end

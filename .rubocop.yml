@@ -19,6 +19,7 @@ Layout/LineLength:
 Metrics/BlockLength:
   AllowedMethods:
     - describe
+    - shared_examples
 
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: consistent_comma

@@ -15,7 +15,7 @@ module Stashify
     def find(name)
       if directory?(name)
         directory(name)
-      elsif file?(name)
+      elsif exists?(name)
         file(name)
       end
     end
