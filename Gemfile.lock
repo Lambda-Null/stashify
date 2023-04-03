@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    stashify (3.1.0)
+    stashify (3.2.0)
 
 GEM
   remote: https://rubygems.org/

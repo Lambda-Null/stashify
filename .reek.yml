@@ -19,3 +19,7 @@ detectors:
   ControlParameter:
     exclude:
       - Stashify::Directory#initialize
+
+  NilCheck:
+    exclude:
+      - Stashify::File#exists?

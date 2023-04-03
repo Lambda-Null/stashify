@@ -23,6 +23,10 @@ module Stashify
       @contents = nil
     end
 
+    def exists?
+      !contents.nil?
+    end
+
     def ==(other)
       name == other.name && contents == other.contents
     end

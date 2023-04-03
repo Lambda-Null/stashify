@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
+require "stashify/contract/directory_contract"
+
 require "stashify/directory"
+require "stashify/file"
 
 RSpec.describe Stashify::Directory do
   let(:properties) do
@@ -17,6 +20,21 @@ RSpec.describe Stashify::Directory do
       guard name2 !~ %r{/}
       [File.join(path), name1, name2]
     end
+  end
+
+  include_context "directory setup", 100
+
+  subject(:directory) do
+    Stashify::Directory.new(path: path)
+  end
+
+  before(:each) do
+    subject.write(
+      Stashify::File.new(
+        name: file_name,
+        contents: contents,
+      ),
+    )
   end
 
   it "handles multiple arguments for path_of" do

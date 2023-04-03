@@ -62,7 +62,9 @@ module Stashify
       self.class == other.class && name == other.name && path == other.path
     end
 
-    private
+    def file(name)
+      Stashify::File.new(path: path_of(name))
+    end
 
     def path_of(*name)
       ::File.join(path, *name)
