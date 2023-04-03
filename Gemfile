@@ -18,3 +18,5 @@ gem "guard-rubocop"
 
 gem "byebug"
 gem "stashify-contract"
+
+gem "yard"
