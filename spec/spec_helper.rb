@@ -15,13 +15,3 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
-
-module SpecHelper
-  def self.file_properties
-    Rantly(100) do
-      name = string
-      guard name !~ %r{/}
-      [name, string]
-    end
-  end
-end

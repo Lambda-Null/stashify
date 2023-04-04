@@ -108,6 +108,8 @@ This consistency allows a lot of portability. For instance, pulling in a couple 
 	> adir.files.map(&:name)
 	=> ["baz"]
 
+As you can see in the above examples, `Stashify::File` and `Stashify::Directory` can be created directly to define in-memory objects. This helps avoid the need to do silly things like write files to disk in order to get them to the desired destination.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

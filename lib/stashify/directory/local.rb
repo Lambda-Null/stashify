@@ -5,7 +5,13 @@ require "stashify/directory"
 
 module Stashify
   class Directory
+    # An implementation for interacting with local directories. The
+    # constructor needs no information on top of what is included
+    # {Stashify::Directory#initialize}, although it's important to
+    # note that setting the files parameter will not do anything.
     class Local < Stashify::Directory
+      # Mostly uses the default implementaiton, but needs to create
+      # the directory first so it has a valid destination.
       def write_directory(directory)
         FileUtils.mkdir(path_of(directory.name))
         super
@@ -21,7 +27,7 @@ module Stashify
 
       def files
         Dir.entries(path).grep_v(/^[.][.]?$/).map do |file_name|
-          find(::File.basename(file_name))
+          find(file_name)
         end
       end
 

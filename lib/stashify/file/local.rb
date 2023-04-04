@@ -4,6 +4,10 @@ require "stashify/file"
 
 module Stashify
   class File
+    # An implementation for interacting with local files. The
+    # constructor needs no information on top of what is included
+    # {Stashify::File#initialize}, although it's important to note
+    # that setting the contents parameter will not do anything.
     class Local < Stashify::File
       def contents
         ::File.read(path)
